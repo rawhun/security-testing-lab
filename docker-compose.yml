@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # OWASP Juice Shop - Intentionally vulnerable web application
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    container_name: juice-shop
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=unsafe
+    restart: unless-stopped
+    networks:
+      - security-lab
+
+  # OWASP ZAP - Security testing proxy
+  zap:
+    image: owasp/zap2docker-stable:latest
+    container_name: owasp-zap
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    command: zap-webswing.sh
+    restart: unless-stopped
+    networks:
+      - security-lab
+    volumes:
+      - zap-data:/zap/wrk
+
+  # DVWA - Damn Vulnerable Web Application (alternative target)
+  dvwa:
+    image: vulnerables/web-dvwa:latest
+    container_name: dvwa
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    networks:
+      - security-lab
+
+networks:
+  security-lab:
+    driver: bridge
+
+volumes:
+  zap-data:
+
+# Usage:
+# docker-compose up -d              # Start all services
+# docker-compose up juice-shop      # Start only Juice Shop
+# docker-compose down               # Stop all services
+# docker-compose logs -f juice-shop # View logs
+
+# Access URLs:
+# Juice Shop: http://localhost:3000
+# OWASP ZAP:  http://localhost:8080
+# DVWA:       http://localhost:8081

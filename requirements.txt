@@ -1,0 +1,23 @@
+# Core dependencies
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# HTTP and web scraping
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+
+# Terminal output formatting
+rich==13.7.0
+
+# Database
+# SQLite is included with Python
+
+# Optional: Advanced security testing
+# python-owasp-zap-v2.4==0.0.21
+# selenium==4.15.2
+
+# Development and testing
+pytest==7.4.3
+black==23.12.1
+flake8==6.1.0
